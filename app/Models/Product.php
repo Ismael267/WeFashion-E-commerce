@@ -42,7 +42,7 @@ class Product extends Model
     {
         return $this->belongsTo(State::class);
     }
-    public function sizes()
+    public function size()
     {
         return $this->belongsTo(Size::class);
     }

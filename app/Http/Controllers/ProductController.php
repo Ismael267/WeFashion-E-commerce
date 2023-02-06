@@ -22,22 +22,8 @@ class ProductController extends Controller
     {
         //
         $products = Product::paginate(6);
-        // $images_paths = Product::pluck('image')->all();
-        // $images = [];
-
-        // foreach ($images_paths as $path) {
-        //     $image = file_get_contents($path);
-        //     array_push($images, $image);
-        // }
-
-        // dd($images);
-
-        // dd($image);
-
 
         $compteur = Product::count();
-
-
         return view('products.index', compact('products', 'compteur'));
     }
     public function femmes()
@@ -46,9 +32,7 @@ class ProductController extends Controller
             $query->where('categorie_name', 'femme');
         })->paginate(6);
         $compteur = $femmes->total();
-        // dd($compteur);
 
-        // dd($femmes);
         return view('products.femmes', compact('femmes', 'compteur'));
     }
     public function hommes()
@@ -57,8 +41,7 @@ class ProductController extends Controller
             $query->where('categorie_name', 'homme');
         })->paginate(6);
         $compteur = $hommes->total();
-        // dd($compteur);
-        // dd($femmes);
+
         return view('products.hommes', compact('hommes', 'compteur'));
     }
     public function soldes()
@@ -67,8 +50,7 @@ class ProductController extends Controller
             $query->where('state', 'en solde');
         })->paginate(6);
         $compteur = $soldes->total();
-        // dd($compteur);
-        // dd($femmes);
+
         return view('products.soldes', compact('soldes', 'compteur'));
     }
     public function AllAdmin()
@@ -131,7 +113,7 @@ class ProductController extends Controller
         $product->visibility_id = $visibility->id;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $name =Str::uuid()->toString() . "." . $image->getClientOriginalExtension();
+            $name =Str::uuid()->toString(). "." . $image->getClientOriginalExtension();
             $destinationPath = public_path('storage/images');
             $image->move($destinationPath, $name);
             $product->image ="storage/images/". $name;
@@ -177,32 +159,26 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
-        $image = $request->file('image');
-
-        $filename = Str::uuid()->toString() . "." . $image->getClientOriginalExtension();
-
-        $image->move(storage_path('App/public/img'), $filename);
-        $categorie_id = Categorie::where('categorie_name', $request->categorie_name)->first()->id;
-        $size_id = Size::where('size', $request->size)->first()->id;
-        $visibility_id = Visibility::where('visibility', $request->visibility)->first()->id;
-        $state_id = State::where('state', $request->state)->first()->id;
+        $categorie = Categorie::where('categorie_name', $request->categorie_name)->first();
+        $size = Size::where('size', $request->size)->first();
+        $visibility = Visibility::where('visibility', $request->visibility)->first();
+        $state = State::where('state', $request->state)->first();
 
         $product->update([
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price,
-            'image' => $filename,
-            'size_id' => $size_id,
-            'state_id' => $state_id,
-            'categorie_id' => $categorie_id,
-            'visibility_id' => $visibility_id,
-            "reference" => $request->reference
+            // 'categorie_id' => $categorie->id,
+            'size_id' => $size->id,
+            'visibility_id' => $visibility->id,
+            'state_id' => $state->id,
+            'reference' => $request->reference
         ]);
 
         return redirect()->back()
-            ->with('success', 'modification effectué');
+            ->with('success', 'Modification effectuée');
     }
+
 
     /**
      * Remove the specified resource from storage.

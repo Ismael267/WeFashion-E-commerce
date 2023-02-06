@@ -22,20 +22,20 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-/*
+        /*
    la méthode files est utilisée pour récupérer tous les fichiers dans le dossier public/images.
 */
-/*
+        /*
    la méthode pluck quanta elle est utilisée pourpour extraire une colonne spécifique d'un tableau d'objets ou de tableaux associatifs.
 */
-$files = File::files('storage/images');
+        $files = File::files('storage/images');
 
-// // Boucle sur chaque image pour générer des données fictives
-// foreach ($files as $file) {
-//     // Sélectionner une image aléatoirement
-//     $image = $files[array_rand($files)];
-// }
-// $bon=
+        // // Boucle sur chaque image pour générer des données fictives
+        // foreach ($files as $file) {
+        //     // Sélectionner une image aléatoirement
+        //     $image = $files[array_rand($files)];
+        // }
+        // $bon=
         // $images=basename($directory);
         $frgnKey_cat = Categorie::pluck('id');
         $frgnKey_sta = State::pluck('id');
@@ -54,7 +54,7 @@ $files = File::files('storage/images');
             'price' => $this->faker->numberBetween(30, 50) * 100,
             "image" => $this->faker->randomElement($files),
             "reference" => $this->faker->bothify('??????######????'),
-            'categorie_id' =>$this->faker->randomElement($frgnKey_cat),
+            'categorie_id' => $this->faker->randomElement($frgnKey_cat),
         ];
     }
 }

@@ -15,9 +15,11 @@
           <p class="font-weight-bold">{{$product->getPrice()}}</p>
           <label for="size">Taille :</label>
           <select id="size" class="form-control">
-            <option value="small">Petit</option>
-            <option value="medium">Moyen</option>
-            <option value="large">Grand</option>
+            <option value="small">XS</option>
+            <option value="medium">XL</option>
+            <option value="large">M</option>
+            <option value="large">S</option>
+            <option value="large">L</option>
           </select>
         </div>
         <div>
